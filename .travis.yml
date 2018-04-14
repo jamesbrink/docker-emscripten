@@ -2,5 +2,6 @@ language: bash
 services: docker
 
 script:
+  - travis_wait 120 sleep infinity &
   - docker build -t jamesbrink/emscripten .
   - docker images
