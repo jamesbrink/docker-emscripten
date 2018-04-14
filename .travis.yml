@@ -1,14 +1,7 @@
-sudo: true
-dist: trusty
 language: bash
 services: docker
-
-jobs:
-  include:
-    - stage: builder
-      script: ./build.sh builder
-    - stage: z3
-      script: ./build.sh z3
-    - stage: fastcomp
-      script: ./build.sh fastcomp
+script:
+  - ./build.sh builder
+  - ./build.sh z3
+  - ./build.sh fastcomp
 
