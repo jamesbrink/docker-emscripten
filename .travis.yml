@@ -1,7 +1,18 @@
+sudo: true
+dist: trusty
 language: bash
 services: docker
 
-script:
-  - travis_wait 120 sleep infinity &
-  - docker build -t jamesbrink/emscripten .
-  - docker images
+
+
+jobs:
+  include:
+    - stage: Docker build deps.
+      script: docker build --target deps -t jamesbrink/emscripten .
+    - stage: Docker build emscripten SDK.
+      script: docker build --target builder -t jamesbrink/emscripten .
+    - stage: Docker build image.
+      script: docker build -t jamesbrink/emscripten .
+    - stage: Test.
+      script: docker run --rm jamesbrink/emscripten emcc -v
+

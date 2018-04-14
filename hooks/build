@@ -2,7 +2,15 @@
 
 # $IMAGE_NAME var is injected into the build so the tag is correct.
 
-echo "Build hook running"
+echo "Build hook running."
+echo "Building deps container."
 docker build --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
              --build-arg VCS_REF=`git rev-parse --short HEAD` \
-             -t $IMAGE_NAME .
+             --target build-deps \
+             -t $IMAGE_NAME:deps .
+             
+echo "Building emscripten SDK."
+docker build --target builder -t $IMAGE_NAME:builder .
+
+echo "Building final image."
+docker build -t $IMAGE_NAME .

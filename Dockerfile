@@ -2,7 +2,7 @@
 #
 # VERSION 0.0.0
 
-FROM alpine:3.7
+FROM alpine:3.7 as deps
 
 ARG VCS_REF
 ARG BUILD_DATE
@@ -60,6 +60,8 @@ RUN set -xe; \
     cd /emscripten; \
     rm -rf z3;
 
+FROM deps as builder
+
 # Drop down to unpriviledged user.   
 USER emscripten
 
@@ -75,12 +77,14 @@ RUN set -xe; \
     cd /emscripten/emsdk/; \
     ./emsdk install sdk-incoming-64bit;
 
+FROM builder as emscripted
+
 # Setup the emsdk environment.
 RUN set -xe; \
+    cd emsdk; \
     ./emsdk activate sdk-incoming-64bit; \
-    sed -ir "s#NODE_JS=.*#NODE_JS='/usr/bin/node#g" /emscripten/.emscripten; \
-    source ./emsdk_env.sh; \
-    emcc -v;
+    sed -ir "s#NODE_JS=.*#NODE_JS='/usr/bin/node'#g" /emscripten/.emscripten; \
+    bash -c "source ./emsdk_env.sh && emcc -v";
 
 # Copy in our docker assets.
 COPY ./docker-entrypoint.sh /usr/local/bin/entrypoint.sh

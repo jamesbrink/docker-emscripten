@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 # emscripten entrypoint, not much here.
 
 # source in the emscripten env.
-source /emscripten/emsdk_env.sh
+source /emscripten/emsdk/emsdk_env.sh
 exec ${@}
 exit
