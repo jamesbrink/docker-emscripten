@@ -11,4 +11,4 @@ echo "Building Z3"
 docker build --build-arg FROM_IMAGE="${FROM_IMAGE}" \
 --build-arg Z3_VERSION="${Z3_VERSION}" \
 --build-arg CPU_CORES="${CPU_CORES}" \
--t "${IMAGE_NAME}" ./Dockerfile.stages/z3
+-t "${IMAGE_NAME}" .

@@ -5,5 +5,5 @@ set -e
 echo "Build hook running."
 
 echo "Building emscripten builder image."
-docker build -t "${IMAGE_NAME}" ./Dockerfile.stages/builder
+docker build -t "${IMAGE_NAME}" .
 
