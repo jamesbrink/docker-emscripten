@@ -3,16 +3,12 @@ dist: trusty
 language: bash
 services: docker
 
-
-
 jobs:
   include:
-    - stage: Docker build deps.
-      script: docker build --target deps -t jamesbrink/emscripten .
-    - stage: Docker build emscripten SDK.
-      script: docker build --target builder -t jamesbrink/emscripten .
-    - stage: Docker build image.
-      script: docker build -t jamesbrink/emscripten .
-    - stage: Test.
-      script: docker run --rm jamesbrink/emscripten emcc -v
+    - stage: builder
+      script: ./build.sh builder
+    - stage: z3
+      script: ./build.sh z3
+    - stage: fastcomp
+      script: ./build.sh fastcomp
 

@@ -4,3 +4,4 @@ hooks
 Dockerfile
 test_data
 README.md
+Dockerfile.stages

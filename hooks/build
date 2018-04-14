@@ -1,16 +1,46 @@
 #!/bin/bash
 
-# $IMAGE_NAME var is injected into the build so the tag is correct.
+set -xe
+IMAGE_NAME="${IMAGE_NAME:-emscripten}"
+SDK_VERSION="${SDK_VERSION:-1.37.37}"
+CPU_CORES="${CPU_CORES:-4}"
+Z3_VERSION="${Z3_VERSION:-z3-4.6.0}"
 
 echo "Build hook running."
-echo "Building deps container."
-docker build --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
-             --build-arg VCS_REF=`git rev-parse --short HEAD` \
-             --target build-deps \
-             -t $IMAGE_NAME:deps .
-             
-echo "Building emscripten SDK."
-docker build --target builder -t $IMAGE_NAME:builder .
+build_builder() {
+    echo "Building emscripten builder image."
+    docker build -t "${IMAGE_NAME}:builder" ./Dockerfile.stages/builder
+}
 
-echo "Building final image."
-docker build -t $IMAGE_NAME .
+build_z3() {
+    echo "Building Z3"
+    docker build --build-arg BUILDER="${IMAGE_NAME}:builder" \
+    --build-arg Z3_VERSION="${Z3_VERSION}" \
+    --build-arg CPU_CORES="${CPU_CORES}" \
+    -t "${IMAGE_NAME}:z3" ./Dockerfile.stages/z3
+}
+
+build_fastcomp() {
+    echo "Building fastcomp (LLVM & CLANG)"
+    docker build --build-arg BUILDER="${IMAGE_NAME}:builder" \
+    --build-arg SDK_VERSION="${SDK_VERSION}" \
+    --build-arg CPU_CORES="${CPU_CORES}" \
+    -t "${IMAGE_NAME}:fastcomp" ./Dockerfile.stages/fastcomp
+}
+
+case "$1" in
+    builder)
+        build_builder
+    ;;
+    z3)
+        build_z3
+    ;;
+    fastcomp)
+        build_fastcomp
+    ;;
+    *)
+        build_builder
+        build_z3
+        build_fastcomp
+    ;;
+esac
