@@ -5,7 +5,7 @@ set -e
 echo "Build hook running."
 
 SDK_VERSION="${SDK_VERSION:-1.37.37}"
-CPU_CORES="${CPU_CORES:-4}"
+CPU_CORES="${CPU_CORES:-8}"
 
 echo "Building fastcomp (LLVM & CLANG)"
 docker build --build-arg FROM_IMAGE="${FROM_IMAGE}" \
