@@ -1,10 +1,10 @@
-ARG FROM_IMAGE
+ARG FROM_IMAGE="jamesbrink/emscripten:z3"
 
 FROM ${FROM_IMAGE}
 
 # Build Stage ARGs
-ARG SDK_VERSION
-ARG CPU_CORES
+ARG SDK_VERSION="1.37.37"
+ARG CPU_CORES="4"
 
 RUN set -xe; \
     git clone https://github.com/kripken/emscripten-fastcomp; \
@@ -20,9 +20,4 @@ RUN set -xe; \
     cd /build/emscripten-fastcomp/build; \
     cmake .. -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD="X86;JSBackend" -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DCLANG_INCLUDE_TESTS=OFF;
 
-RUN set -xe; \
-    cd /build/emscripten-fastcomp/build; \
-    echo "CPU_CORES=${CPU_CORES}"; \
-    make -j${CPU_CORES};
-    
 

@@ -1,0 +1,15 @@
+ARG FROM_IMAGE
+
+FROM ${FROM_IMAGE}
+
+# Build Stage ARGs
+ARG SDK_VERSION
+ARG CPU_CORES
+
+RUN set -xe; \
+    cd /build/emscripten-fastcomp/build; \
+    echo "CPU_CORES=${CPU_CORES}"; \
+    make -j${CPU_CORES};
+    
+    
+

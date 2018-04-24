@@ -1,0 +1,15 @@
+ARG FROM_IMAGE
+
+FROM ${FROM_IMAGE}
+
+# Build Stage ARGs
+ARG SDK_VERSION
+ARG CPU_CORES
+ARG BUILD_TIMEOUT
+
+RUN cd /build/emscripten-fastcomp/build; \
+    echo "CPU_CORES=${CPU_CORES}"; \
+    timeout -t ${BUILD_TIMEOUT} make -j${CPU_CORES}; \
+    exit 0;
+    
+

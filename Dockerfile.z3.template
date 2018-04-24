@@ -18,5 +18,3 @@ RUN set -xe; \
     cd z3/build; \
     make -j${CPU_CORES}; \
     make install;
-    
-
