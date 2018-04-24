@@ -1,7 +1,13 @@
 language: bash
 services: docker
 script:
-  - ./build.sh builder
-  - ./build.sh z3
-  - ./build.sh fastcomp
+  - bash -c "make builder"
+  - bash -c "make z3"
+  - bash -c "make fastcomp_fetch"
+  - bash -c "make fastcomp_stage1"
+  - bash -c "make fastcomp_stage2"
+  - bash -c "make fastcomp_stage3"
+  - bash -c "make fastcomp_stage4"
+  - bash -c "make fastcomp"
+  - docker images
 
