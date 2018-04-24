@@ -1,4 +1,4 @@
-ARG FROM_IMAGE="jamesbrink/emscripten:z3"
+ARG FROM_IMAGE="jamesbrink/emscripten_z3"
 
 FROM ${FROM_IMAGE}
 

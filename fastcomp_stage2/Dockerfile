@@ -1,4 +1,4 @@
-ARG FROM_IMAGE="jamesbrink/emscripten:fastcomp_stage1"
+ARG FROM_IMAGE="jamesbrink/emscripten_fastcomp_stage1"
 
 FROM ${FROM_IMAGE}
 
