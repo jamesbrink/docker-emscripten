@@ -5,7 +5,7 @@ FROM ${FROM_IMAGE}
 # Build Stage ARGs
 ARG SDK_VERSION="1.37.37"
 ARG CPU_CORES="4"
-ARG BUILD_TIMEOUT=2400
+ARG BUILD_TIMEOUT=5400
 
 RUN cd /build/emscripten-fastcomp/build; \
     echo "CPU_CORES=${CPU_CORES}"; \

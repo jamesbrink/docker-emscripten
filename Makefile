@@ -4,7 +4,7 @@ NAME=jamesbrink/emscripten
 TEMPLATE=Dockerfile.template
 DOCKER_COMPOSE_TEMPLATE=docker-compose.template
 # Build Timeout of 40m
-BUILD_TIMEOUT=2400
+BUILD_TIMEOUT=5400
 .PHONY: test all clean builder z3 fastcomp_fetch fastcomp_stage1 fastcomp_stage2 fastcomp_stage3 fastcomp_stage4 fastcomp
 .DEFAULT_GOAL := builder 
 
